@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Exercices interactifs de français sur le passé simple, niveau quatrième, avec correction automatique." />
+  <title>Fransid — Le passé simple | Niveau 4e</title>
+  <style>
+    :root {
+      --navy: #082a47;
+      --navy-2: #0d3d63;
+      --green-bg: #dff7e8;
+      --green-soft: #effcf3;
+      --green: #197a4b;
+      --green-bright: #35b879;
+      --yellow: #ffe49a;
+      --red: #c93646;
+      --red-bg: #fff0f2;
+      --gray: #617082;
+      --white: #ffffff;
+      --shadow: 0 14px 35px rgba(8, 42, 71, 0.13);
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--navy);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(53, 184, 121, .18), transparent 30rem),
+        linear-gradient(135deg, var(--green-bg), #cceff0 55%, #f7fff8);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    .container { width: min(1120px, calc(100% - 32px)); margin-inline: auto; }
+
+    header {
+      padding: 28px 0 72px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-2));
+      color: var(--white);
+      border-bottom-left-radius: 42px;
+      border-bottom-right-radius: 42px;
+      box-shadow: var(--shadow);
+    }
+
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 18px; }
+    .brand { display: inline-flex; align-items: center; gap: 13px; }
+    .logo-mark {
+      width: 54px; height: 54px; display: grid; place-items: center;
+      color: var(--navy); background: var(--yellow); border-radius: 18px;
+      font-size: 1.35rem; font-weight: 900; transform: rotate(-4deg);
+      box-shadow: 7px 7px 0 rgba(53, 184, 121, .45);
+    }
+    .brand-name { font-size: clamp(1.6rem, 4vw, 2.25rem); font-weight: 900; letter-spacing: -.04em; }
+    .brand-subtitle { margin: 0; color: #cbe8ea; font-size: .85rem; }
+    .download-button, .primary-button, .secondary-button {
+      border: 0; border-radius: 999px; padding: 12px 18px; font-weight: 800;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .download-button { color: var(--navy); background: var(--yellow); box-shadow: 0 7px 0 rgba(0, 0, 0, .12); }
+    .download-button:hover, .primary-button:hover, .secondary-button:hover { transform: translateY(-2px); }
+    .hero { max-width: 760px; padding-top: 54px; }
+    .eyebrow { color: #9be4bd; text-transform: uppercase; letter-spacing: .14em; font-size: .78rem; font-weight: 900; }
+    h1 { margin: 12px 0 14px; font-size: clamp(2.2rem, 6vw, 4.7rem); line-height: 1.02; letter-spacing: -.055em; }
+    .hero p { color: #dbeef0; font-size: 1.08rem; max-width: 690px; }
+    .author-pill { display: inline-flex; margin-top: 12px; padding: 8px 14px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); border-radius: 999px; color: #fff; font-weight: 700; }
+
+    main { padding: 36px 0 80px; }
+    .course-note, .exercise-card, .correction-card, .score-card {
+      background: rgba(255,255,255,.9); border: 1px solid rgba(8,42,71,.08);
+      border-radius: var(--radius); box-shadow: var(--shadow);
+    }
+    .course-note { padding: 25px; margin-bottom: 22px; }
+    .course-note h2 { margin-top: 0; }
+    .course-note-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .course-chip { padding: 15px; border-radius: 15px; background: var(--green-soft); border-left: 4px solid var(--green-bright); }
+    .course-chip strong { display: block; color: var(--navy); margin-bottom: 5px; }
+    .course-chip span { color: var(--gray); font-size: .94rem; }
+
+    .exercise-card { padding: clamp(20px, 4vw, 32px); margin-top: 22px; }
+    .exercise-heading { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 22px; }
+    .number-badge { min-width: 45px; height: 45px; display: grid; place-items: center; border-radius: 14px; background: var(--navy); color: var(--yellow); font-weight: 900; font-size: 1.15rem; }
+    h2, h3 { line-height: 1.2; }
+    h2 { margin: 0; font-size: clamp(1.35rem, 3vw, 1.85rem); }
+    .instruction { margin: 5px 0 0; color: var(--gray); }
+    .question-list { display: grid; gap: 14px; padding: 0; margin: 0; list-style: none; counter-reset: item; }
+    .question-item { display: flex; gap: 11px; align-items: center; flex-wrap: wrap; padding: 15px 16px; border-radius: 15px; background: #f7fcf9; border: 1px solid #d9eee1; }
+    .question-item::before { counter-increment: item; content: counter(item) "."; color: var(--green); font-weight: 900; }
+    .question-text { flex: 1 1 270px; }
+    .answer, .answer-select {
+      min-width: 145px; border: 2px solid #c7d7dd; border-radius: 11px; padding: 9px 11px;
+      color: var(--navy); background: var(--white); outline: none;
+      transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
+    }
+    .answer:focus, .answer-select:focus { border-color: var(--green-bright); box-shadow: 0 0 0 4px rgba(53,184,121,.16); }
+    .answer.correct, .answer-select.correct { border-color: var(--green); background: #d9f8e5; color: #116338; }
+    .answer.incorrect, .answer-select.incorrect { border-color: var(--red); background: var(--red-bg); color: #a32030; }
+    .answer.unanswered, .answer-select.unanswered { border-color: var(--red); background: var(--red-bg); }
+    .inline-fields { display: inline-flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .inline-fields .answer { min-width: 110px; }
+    .table-wrap { overflow-x: auto; }
+    .recognition-row { display: grid; grid-template-columns: minmax(180px, 1fr) repeat(2, minmax(140px, .4fr)) minmax(150px, .45fr); gap: 10px; align-items: center; padding: 12px; background: #f7fcf9; border: 1px solid #d9eee1; border-radius: 14px; margin-bottom: 10px; }
+    .recognition-row strong { color: var(--green); }
+    .recognition-label { font-size: .77rem; color: var(--gray); font-weight: 800; display: block; margin-bottom: 4px; }
+    .text-answer { width: min(100%, 640px); min-height: 48px; resize: vertical; }
+    .verb-line { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .verb-line .answer { min-width: 122px; }
+    .muted { color: var(--gray); font-size: .92rem; }
+
+    .score-card { padding: 22px; margin-top: 24px; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; background: linear-gradient(135deg, #ffffff, #e7faec); }
+    .score-value { font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 950; color: var(--navy); letter-spacing: -.06em; }
+    .score-message { margin: 0; color: var(--gray); }
+    .primary-button { background: var(--green); color: #fff; box-shadow: 0 7px 0 #0d5b37; }
+    .secondary-button { background: var(--navy); color: #fff; }
+
+    .correction-card { margin-top: 24px; padding: clamp(20px, 4vw, 32px); border: 2px solid #b9e5c8; }
+    .correction-card h2 { color: var(--green); }
+    .correction-list { display: grid; gap: 14px; padding-left: 20px; }
+    .correction-list li { padding-left: 5px; }
+    .correction-list strong { color: var(--navy); }
+    .explanation { display: block; color: var(--gray); font-size: .93rem; margin-top: 4px; }
+    .tag { display: inline-block; padding: 3px 8px; border-radius: 99px; font-size: .75rem; font-weight: 900; background: #dff7e8; color: var(--green); }
+    footer { padding: 30px 0 42px; text-align: center; color: var(--gray); font-size: .88rem; }
+    footer strong { color: var(--navy); }
+    .status { min-height: 25px; margin-top: 8px; font-weight: 800; }
+    .status.good { color: var(--green); }
+    .status.bad { color: var(--red); }
+
+    @media (max-width: 760px) {
+      .topbar { align-items: flex-start; }
+      .download-button { padding: 10px 12px; font-size: .83rem; }
+      .course-note-grid { grid-template-columns: 1fr; }
+      .recognition-row { grid-template-columns: 1fr; }
+      .recognition-row .answer, .recognition-row .answer-select { width: 100%; }
+      .question-item { align-items: flex-start; }
+      h1 { font-size: 2.7rem; }
+    }
+
+    @media print {
+      .download-button, .primary-button, .secondary-button { display: none; }
+      body { background: white; }
+      header { border-radius: 0; box-shadow: none; }
+      .exercise-card, .correction-card, .course-note, .score-card { box-shadow: none; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="topbar">
+        <div class="brand" aria-label="Logo Fransid">
+          <div class="logo-mark">F</div>
+          <div>
+            <div class="brand-name">Fransid</div>
+            <p class="brand-subtitle">Français autrement</p>
+          </div>
+        </div>
+        <button class="download-button" type="button" id="downloadBtn">⬇ Télécharger</button>
+      </div>
+      <div class="hero">
+        <div class="eyebrow">Fiche interactive · Niveau quatrième</div>
+        <h1>Le passé simple</h1>
+        <p>Entraîne-toi à conjuguer, reconnaître et employer le passé simple. Tes réponses se colorent automatiquement : <strong>vert</strong> si elles sont justes, <strong>rouge</strong> si elles sont fausses.</p>
+        <span class="author-pill">✦ Exercice créé par Sid KHALIFA</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="course-note" aria-labelledby="rappel-title">
+      <h2 id="rappel-title">Rappel express</h2>
+      <p>Le passé simple raconte les actions principales, ponctuelles et successives. L’imparfait installe plutôt le décor, la durée, la répétition ou la description.</p>
+      <div class="course-note-grid">
+        <div class="course-chip"><strong>1er groupe</strong><span>-ai, -as, -a / -âmes, -âtes, -èrent</span></div>
+        <div class="course-chip"><strong>2e groupe</strong><span>-is, -is, -it / -îmes, -îtes, -irent</span></div>
+        <div class="course-chip"><strong>3e groupe</strong><span>-is, -us ou -s / -îmes, -ûmes, -irent, -urent</span></div>
+      </div>
+    </section>
+
+    <form id="exerciseForm" novalidate>
+      <section class="exercise-card" aria-labelledby="ex1-title">
+        <div class="exercise-heading"><div class="number-badge">01</div><div><h2 id="ex1-title">Conjuguer au passé simple</h2><p class="instruction">Conjugue le verbe entre parenthèses à la personne demandée.</p></div></div>
+        <ol class="question-list">
+          <li class="question-item"><span class="question-text">Les enfants (finir, 3e personne du pluriel) leurs devoirs avant le dîner.</span><input class="answer" type="text" data-answer="finirent" aria-label="Réponse exercice 1 question 1" /></li>
+          <li class="question-item"><span class="question-text">Les voyageurs (être, 3e personne du pluriel) épuisés à leur arrivée.</span><input class="answer" type="text" data-answer="furent" aria-label="Réponse exercice 1 question 2" /></li>
+          <li class="question-item"><span class="question-text">Je (prendre, 1re personne du singulier) le premier train du matin.</span><input class="answer" type="text" data-answer="pris" aria-label="Réponse exercice 1 question 3" /></li>
+          <li class="question-item"><span class="question-text">Elle (aller, 3e personne du singulier) se coucher très tard.</span><input class="answer" type="text" data-answer="alla" aria-label="Réponse exercice 1 question 4" /></li>
+          <li class="question-item"><span class="question-text">Les joueurs (recevoir, 3e personne du pluriel) leur médaille à la fin du match.</span><input class="answer" type="text" data-answer="reçurent" aria-label="Réponse exercice 1 question 5" /></li>
+        </ol>
+      </section>
+
+      <section class="exercise-card" aria-labelledby="ex2-title">
+        <div class="exercise-heading"><div class="number-badge">02</div><div><h2 id="ex2-title">Reconnaître les formes</h2><p class="instruction">Donne l’infinitif et le groupe du verbe en gras.</p></div></div>
+        <div class="table-wrap" role="region" aria-label="Tableau de reconnaissance des formes" tabindex="0">
+          <div class="recognition-row" style="background:transparent;border:0;padding-top:0"><strong>Phrase</strong><span class="recognition-label">Forme</span><span class="recognition-label">Infinitif</span><span class="recognition-label">Groupe</span></div>
+          <div class="recognition-row"><strong>Les soldats prirent la ville après trois jours de siège.</strong><input class="answer" type="text" data-answer="prirent" aria-label="Forme 1" /><input class="answer" type="text" data-answer="prendre" aria-label="Infinitif 1" /><select class="answer-select" data-answer="3e groupe" aria-label="Groupe 1"><option value="">Choisir</option><option>1er groupe</option><option>2e groupe</option><option>3e groupe</option></select></div>
+          <div class="recognition-row"><strong>La reine fut surprise par la nouvelle.</strong><input class="answer" type="text" data-answer="fut" aria-label="Forme 2" /><input class="answer" type="text" data-answer="être" aria-label="Infinitif 2" /><select class="answer-select" data-answer="3e groupe" aria-label="Groupe 2"><option value="">Choisir</option><option>1er groupe</option><option>2e groupe</option><option>3e groupe</option></select></div>
+          <div class="recognition-row"><strong>Nous regagnâmes nos pénates avant la nuit.</strong><input class="answer" type="text" data-answer="regagnâmes" aria-label="Forme 3" /><input class="answer" type="text" data-answer="regagner" aria-label="Infinitif 3" /><select class="answer-select" data-answer="1er groupe" aria-label="Groupe 3"><option value="">Choisir</option><option>1er groupe</option><option>2e groupe</option><option>3e groupe</option></select></div>
+          <div class="recognition-row"><strong>Vous choisîtes le chemin le plus court.</strong><input class="answer" type="text" data-answer="choisîtes" aria-label="Forme 4" /><input class="answer" type="text" data-answer="choisir" aria-label="Infinitif 4" /><select class="answer-select" data-answer="2e groupe" aria-label="Groupe 4"><option value="">Choisir</option><option>1er groupe</option><option>2e groupe</option><option>3e groupe</option></select></div>
+          <div class="recognition-row"><strong>Ils dirent enfin toute la vérité.</strong><input class="answer" type="text" data-answer="dirent" aria-label="Forme 5" /><input class="answer" type="text" data-answer="dire" aria-label="Infinitif 5" /><select class="answer-select" data-answer="3e groupe" aria-label="Groupe 5"><option value="">Choisir</option><option>1er groupe</option><option>2e groupe</option><option>3e groupe</option></select></div>
+        </div>
+      </section>
+
+      <section class="exercise-card" aria-labelledby="ex3-title">
+        <div class="exercise-heading"><div class="number-badge">03</div><div><h2 id="ex3-title">Du passé composé au passé simple</h2><p class="instruction">Réécris chaque phrase en remplaçant le passé composé par le passé simple.</p></div></div>
+        <ol class="question-list">
+          <li class="question-item"><span class="question-text">Elle a raconté une histoire passionnante.</span><input class="answer text-answer" type="text" data-answer="Elle raconta une histoire passionnante." aria-label="Transformation 1" /></li>
+          <li class="question-item"><span class="question-text">Nous avons fini nos devoirs avant vingt heures.</span><input class="answer text-answer" type="text" data-answer="Nous finîmes nos devoirs avant vingt heures." aria-label="Transformation 2" /></li>
+          <li class="question-item"><span class="question-text">Ils sont partis dès l’aube.</span><input class="answer text-answer" type="text" data-answer="Ils partirent dès l'aube." aria-label="Transformation 3" /></li>
+          <li class="question-item"><span class="question-text">Tu as été malade toute la semaine.</span><input class="answer text-answer" type="text" data-answer="Tu fus malade toute la semaine." aria-label="Transformation 4" /></li>
+          <li class="question-item"><span class="question-text">J’ai mis mon manteau et je suis sorti.</span><input class="answer text-answer" type="text" data-answer="Je mis mon manteau et je sortis." aria-label="Transformation 5" /></li>
+        </ol>
+      </section>
+
+      <section class="exercise-card" aria-labelledby="ex4-title">
+        <div class="exercise-heading"><div class="number-badge">04</div><div><h2 id="ex4-title">Passé simple ou imparfait ?</h2><p class="instruction">Conjugue chaque verbe au temps qui convient. Les infinitifs sont indiqués entre parenthèses.</p></div></div>
+        <ol class="question-list">
+          <li class="question-item"><span class="question-text">Quand il (arriver) <input class="answer" type="text" data-answer="arriva" aria-label="Exercice 4 question 1 verbe 1" />, la pluie (tomber) <input class="answer" type="text" data-answer="tombait" aria-label="Exercice 4 question 1 verbe 2" /> depuis plusieurs heures.</span></li>
+          <li class="question-item"><span class="question-text">Le soleil (briller) <input class="answer" type="text" data-answer="brillait" aria-label="Exercice 4 question 2 verbe 1" /> quand nous (sortir) <input class="answer" type="text" data-answer="sortîmes" aria-label="Exercice 4 question 2 verbe 2" /> de la maison.</span></li>
+          <li class="question-item"><span class="question-text">Soudain, la porte (s’ouvrir) <input class="answer" type="text" data-answer="s'ouvrit" aria-label="Exercice 4 question 3 verbe" /> sans raison.</span></li>
+          <li class="question-item"><span class="question-text">Elle (porter) <input class="answer" type="text" data-answer="portait" aria-label="Exercice 4 question 4 verbe 1" /> une longue robe bleue et (monter) <input class="answer" type="text" data-answer="montait" aria-label="Exercice 4 question 4 verbe 2" /> lentement l’escalier.</span></li>
+          <li class="question-item"><span class="question-text">Tandis que les enfants (dormir) <input class="answer" type="text" data-answer="dormaient" aria-label="Exercice 4 question 5 verbe 1" />, le loup (s’approcher) <input class="answer" type="text" data-answer="s'approcha" aria-label="Exercice 4 question 5 verbe 2" /> de la maison.</span></li>
+        </ol>
+      </section>
+
+      <section class="exercise-card" aria-labelledby="ex5-title">
+        <div class="exercise-heading"><div class="number-badge">05</div><div><h2 id="ex5-title">Texte à trous</h2><p class="instruction">Complète le récit en conjuguant les verbes entre parenthèses au passé simple.</p></div></div>
+        <div class="question-item" style="display:block;line-height:2.4">
+          Ce soir-là, la tempête (éclater) <input class="answer" type="text" data-answer="éclata" aria-label="Texte à trous verbe 1" /> vers minuit. Les villageois (se réfugier) <input class="answer" type="text" data-answer="se réfugièrent" aria-label="Texte à trous verbe 2" /> dans l’église, seul bâtiment solide du bourg. Le lendemain, quand le jour (se lever) <input class="answer" type="text" data-answer="se leva" aria-label="Texte à trous verbe 3" />, on (découvrir) <input class="answer" type="text" data-answer="découvrit" aria-label="Texte à trous verbe 4" /> que le pont avait disparu, emporté par les flots. Personne ne (comprendre) <input class="answer" type="text" data-answer="comprit" aria-label="Texte à trous verbe 5" /> ce qui s’était passé.
+        </div>
+      </section>
+
+      <section class="score-card" aria-live="polite">
+        <div><div class="score-value" id="score">0 / 35</div><p class="score-message" id="scoreMessage">Commence l’exercice puis clique sur « Corriger mes réponses ».</p></div>
+        <div>
+          <button class="primary-button" type="button" id="checkBtn">✓ Corriger mes réponses</button>
+          <button class="secondary-button" type="button" id="resetBtn">↺ Recommencer</button>
+          <div class="status" id="status" role="status"></div>
+        </div>
+      </section>
+    </form>
+
+    <section class="correction-card" aria-labelledby="correction-title">
+      <div class="exercise-heading"><div class="number-badge">✓</div><div><h2 id="correction-title">Corrigé avec explications</h2><p class="instruction">À consulter après avoir tenté les exercices.</p></div></div>
+      <ol class="correction-list">
+        <li><strong>Exercice 1 :</strong> finirent, furent, pris, alla, reçurent. <span class="explanation">Les terminaisons et les radicaux changent selon le groupe et le verbe : <em>prendre → pris</em>, <em>recevoir → reçurent</em>.</span></li>
+        <li><strong>Exercice 2 :</strong> <em>prirent → prendre, 3e groupe</em> ; <em>fut → être, 3e groupe</em> ; <em>regagnâmes → regagner, 1er groupe</em> ; <em>choisîtes → choisir, 2e groupe</em> ; <em>dirent → dire, 3e groupe</em>. <span class="explanation">Pour trouver le groupe, on revient à l’infinitif du verbe.</span></li>
+        <li><strong>Exercice 3 :</strong> Elle raconta une histoire passionnante ; Nous finîmes nos devoirs avant vingt heures ; Ils partirent dès l’aube ; Tu fus malade toute la semaine ; Je mis mon manteau et je sortis. <span class="explanation">On remplace l’auxiliaire au passé composé par la forme simple du verbe au passé simple.</span></li>
+        <li><strong>Exercice 4 :</strong> arriva / tombait ; brillait / sortîmes ; s’ouvrit ; portait / montait ; dormaient / s’approcha. <span class="explanation"><span class="tag">Passé simple</span> = action ponctuelle qui fait avancer le récit. <span class="tag">Imparfait</span> = description, durée ou arrière-plan.</span></li>
+        <li><strong>Exercice 5 :</strong> éclata, se réfugièrent, se leva, découvrit, comprit. <span class="explanation">Ces actions successives font progresser le récit : elles sont donc au passé simple.</span></li>
+      </ol>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">Fiche interactive inspirée du PDF fourni · <strong>Fransid</strong> · Exercice de Sid KHALIFA</div>
+  </footer>
+
+  <script>
+    const fields = [...document.querySelectorAll('.answer, .answer-select')];
+    const scoreElement = document.getElementById('score');
+    const scoreMessage = document.getElementById('scoreMessage');
+    const statusElement = document.getElementById('status');
+
+    function normalize(value) {
+      return value
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[’']/g, "'")
+        .replace(/[.!?,;:]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function isCorrect(field) {
+      const expected = (field.dataset.answer || '').split('|').map(normalize);
+      return expected.includes(normalize(field.value));
+    }
+
+    function markField(field, finalCheck = false) {
+      const empty = normalize(field.value) === '';
+      field.classList.remove('correct', 'incorrect', 'unanswered');
+      if (empty && !finalCheck) return null;
+      if (empty && finalCheck) {
+        field.classList.add('unanswered');
+        return false;
+      }
+      const good = isCorrect(field);
+      field.classList.add(good ? 'correct' : 'incorrect');
+      return good;
+    }
+
+    function updateLiveStatus() {
+      const answered = fields.filter(field => normalize(field.value) !== '');
+      const good = answered.filter(field => isCorrect(field)).length;
+      scoreElement.textContent = `${good} / ${fields.length}`;
+      scoreMessage.textContent = answered.length ? `${good} réponse${good > 1 ? 's' : ''} correcte${good > 1 ? 's' : ''} sur ${answered.length} renseignée${answered.length > 1 ? 's' : ''}.` : 'Commence l’exercice puis clique sur « Corriger mes réponses ».';
+    }
+
+    fields.forEach(field => {
+      field.addEventListener(field.tagName === 'SELECT' ? 'change' : 'input', () => {
+        markField(field);
+        updateLiveStatus();
+      });
+    });
+
+    document.getElementById('checkBtn').addEventListener('click', () => {
+      let correct = 0;
+      fields.forEach(field => { if (markField(field, true)) correct += 1; });
+      scoreElement.textContent = `${correct} / ${fields.length}`;
+      if (correct === fields.length) {
+        scoreMessage.textContent = 'Excellent ! Toutes tes réponses sont correctes.';
+        statusElement.textContent = 'Bravo, maîtrise parfaite !';
+        statusElement.className = 'status good';
+      } else {
+        scoreMessage.textContent = 'Relis les réponses en rouge et consulte le corrigé explicatif ci-dessous.';
+        statusElement.textContent = `${fields.length - correct} réponse${fields.length - correct > 1 ? 's' : ''} à revoir.`;
+        statusElement.className = 'status bad';
+      }
+      document.querySelector('.score-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      fields.forEach(field => { field.value = ''; field.classList.remove('correct', 'incorrect', 'unanswered'); });
+      scoreElement.textContent = `0 / ${fields.length}`;
+      scoreMessage.textContent = 'Commence l’exercice puis clique sur « Corriger mes réponses ». ';
+      statusElement.textContent = '';
+      statusElement.className = 'status';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const page = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      const blob = new Blob([page], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'fransid_passe_simple_4e.html';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>
